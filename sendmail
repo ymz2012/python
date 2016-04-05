@@ -1,0 +1,83 @@
+# -*- coding:utf-8 -*-
+#
+import sys
+import re
+import os
+reload(sys)
+sys.setdefaultencoding("utf-8")
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
+from tornado.web import RequestHandler, Application
+from email.Header import Header
+from email.MIMEText import MIMEText
+from email.MIMEMultipart import MIMEMultipart
+from email.Utils import formatdate
+import smtplib, datetime
+
+class SendMailHandler(RequestHandler):
+    def post(self):
+	encoding = 'utf-8'
+        #auth = self.get_argument('auth', '')
+        revs = self.get_argument('tos', '', encoding)
+        sub = self.get_argument('subject', '', encoding)
+	#print sub1 
+	#every_sub = sub1.split('][')
+	#note = every_sub[4].split()[0]
+	#value_init = every_sub[4].split()[4]
+	#value = re.split('==|>=|<=|<|>|!=',value_init)[0]
+	#biao='VALUE:'
+	#sub = every_sub[1]+':'+every_sub[2]+':'+note+'#'+biao+value
+	#sub = every_sub[1]+':'+every_sub[2]+':'+note
+        body = self.get_argument('content', '',	encoding)
+	#print body
+	os.chdir("/var/log")
+	logfile = open("sendmail_log","a+")
+	print  >> logfile,sub
+	print  >> logfile,body
+        #print "def post, revs:%s, sub:%s, body:%s" %(revs,sub,body)
+        for rev in revs.split(','):
+            ret = self.__do_handle(rev,sub,body)
+            self.write(ret)
+
+    def __do_handle(self,rev,sub,body):
+        #if auth == "sucanFuckFSCChpk":
+        encoding = 'utf-8'
+        mail_server = 'smtp.exmail.qq.com'
+        mail_user = 'monitor@dayima.com'
+        mail_pwd = '123456'
+        send_name = 'falcon mail'
+        session = None
+        msg = MIMEText(body, 'plain', encoding)
+        msg['Subject'] = Header(sub, encoding)
+        msg['From'] = Header(mail_user, encoding)
+        msg['To'] = rev
+        msg['Date'] = formatdate() 
+        print "__do_handle msg: %s" % msg
+        try:
+            session = smtplib.SMTP(mail_server)
+            session.ehlo()
+            session.starttls()
+            session.ehlo()
+            session.login(mail_user, mail_pwd)
+            session.sendmail(mail_user, rev, msg.as_string())
+            return "send mail successed."
+        except Exception as e:
+            raise e
+        finally:
+            if session:
+                session.quit()
+        #else:
+        #    return "auth fail"
+
+settings = {
+}
+
+application = Application([
+    (r"/mail",SendMailHandler),
+], **settings)
+
+
+if __name__ == "__main__":
+    http_server = HTTPServer(application)
+    http_server.listen(6666)
+    IOLoop.instance().start()
