@@ -3,6 +3,7 @@
 	<name>BBS_Pro</name>
 	<comment></comment>
 	<projects>
+		<project>pydev</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
