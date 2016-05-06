@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'j15l!o2!$rw&q8suz)(-f5sk6opr0zu=bo&mk0adk$1it0t$6+'
+SECRET_KEY = 'ds=_ne&(r5i6mm!4rcm86xnc*(*@#7%*%kwz$c5&(696-jf&cq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,12 +40,12 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'django.contrib.sites',
 )
-SITE_ID = 1
+SITE_ID= 1
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -63,7 +63,7 @@ WSGI_APPLICATION = 'BBS_Pro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'BBS_Pro',
+        'NAME':'bbs_pro',
         'USER':'root',
         'PASSWORD':'123456',
         'HOST':'',

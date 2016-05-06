@@ -21,8 +21,8 @@ class Migration(migrations.Migration):
                 ('content', models.TextField()),
                 ('view_count', models.IntegerField()),
                 ('ranking', models.IntegerField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now_add=True)),
+                ('created_at', models.DateTimeField()),
+                ('updated_at', models.DateTimeField()),
             ],
             options={
             },
@@ -55,12 +55,6 @@ class Migration(migrations.Migration):
             model_name='bbs',
             name='author',
             field=models.ForeignKey(to='app01.BBS_user'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='bbs',
-            name='category',
-            field=models.ForeignKey(to='app01.Category'),
             preserve_default=True,
         ),
     ]

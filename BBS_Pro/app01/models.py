@@ -1,6 +1,6 @@
 import sys
 reload(sys) 
-#sys.setdefaultencoding("utf-8") 
+sys.setdefaultencoding("utf-8") 
 
 from django.db import models
 #from test.test_imageop import MAX_LEN
@@ -33,4 +33,6 @@ class BBS_user(models.Model):
     photo=models.ImageField(upload_to="upload_imgs/" , default="upload_imgs/user-1.jpg") 
     
     def __unicode__(self):
-        return self.user.username
+        return self.user.username   
+    
+    
